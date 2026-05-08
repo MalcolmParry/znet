@@ -93,6 +93,16 @@ pub const Address = struct {
             },
         };
     }
+
+    pub fn format(addr: Address, writer: *std.Io.Writer) !void {
+        try writer.print("{}.{}.{}.{}:{}", .{
+            (addr.inner.host >> 0x00) & 0xff,
+            (addr.inner.host >> 0x08) & 0xff,
+            (addr.inner.host >> 0x10) & 0xff,
+            (addr.inner.host >> 0x18) & 0xff,
+            addr.inner.port,
+        });
+    }
 };
 
 /// Representation of bandwidth limit settings in bytes per second.
