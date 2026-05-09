@@ -384,6 +384,10 @@ pub const Peer = struct {
     pub fn reset(self: Peer) void {
         c.enet_peer_reset(self.ptr);
     }
+
+    pub fn address(self: Peer) Address {
+        return .{ .inner = self.ptr.address };
+    }
 };
 
 /// Event emitted when a peer connects to the host.
