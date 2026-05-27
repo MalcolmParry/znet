@@ -32,6 +32,7 @@ pub fn build(bld: *std.Build) !void {
         .root_source_file = bld.path("src/root.zig"),
         .target = target,
         .optimize = optimize,
+        .link_libc = true,
     });
     const lib = bld.addLibrary(.{
         .name = "znet",
@@ -43,7 +44,7 @@ pub fn build(bld: *std.Build) !void {
     });
     const c_enet_flags = try detectENetFlags(target.result.os, bld.allocator);
 
-    lib.addCSourceFiles(.{
+    lib.root_module.addCSourceFiles(.{
         .root = c_enet_dep.path("."),
         .files = &.{
             "host.c",
@@ -58,8 +59,7 @@ pub fn build(bld: *std.Build) !void {
         },
         .flags = c_enet_flags.items,
     });
-    lib.addIncludePath(c_enet_dep.path("include"));
-    lib.linkLibC();
+    lib.root_module.addIncludePath(c_enet_dep.path("include"));
 
     bld.installArtifact(lib);
 

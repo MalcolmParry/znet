@@ -171,8 +171,8 @@ pub const Packet = struct {
 
     /// Get a reader for the packet's data.
     /// This `Packet`'s lifetime must exceed that of the returned reader.
-    pub fn reader(self: *const Packet) std.io.Reader {
-        return std.io.Reader.fixed(self.dataSlice());
+    pub fn reader(self: *const Packet) std.Io.Reader {
+        return std.Io.Reader.fixed(self.dataSlice());
     }
 };
 
